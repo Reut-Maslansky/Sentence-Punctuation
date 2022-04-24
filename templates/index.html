@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" lang="en" style="height: 100%">
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=5" />
+
+  <title>Sentence Punctuation Tool</title>
+  <meta property="og:title" content="Sentence Punctuation Tool">
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+
+    <div class="row">
+      <h1 id="headline">שלום אור,</h1>
+    </div>
+
+    <form action="/index" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <p id="subHead">הכנס טקסט לפיסוק:</p>
+        <textarea class="form-control txt_input" id="text" name="text"></textarea>
+      </div>
+
+      <br>
+
+      <center>
+        <!-- <button id="predict" type="submit" onclick="$('#loading').show()">נתח</button> -->
+        <button id="punc" type="submit" onclick="sendText()">נתח</button>
+
+      </center>
+
+    </form>
+    <div class="row">
+      <br>
+      <p id="subHead">תוצאה:</p>
+      <textarea class="form-control txt_summary" id="input_prediction" readonly>{{ punc }}</textarea>
+    </div>
+  </div>
+  </div>
+</body>
+
+<!-- <script>
+  // const button = document.getElementById('punc');
+
+  // button.addEventListener("click", myScript);
+
+  function sendText() {
+    document.getElementById('punc').style.color=red;
+  }
+
+</script> -->
+
+</html>
