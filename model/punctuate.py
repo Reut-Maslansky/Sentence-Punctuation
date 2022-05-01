@@ -4,16 +4,11 @@ import numpy as np
 
 def punctuate(test_sentence, model, tokenizer, tag_values):
     punc = {",": "comma", ".": "period", "?": "question_mark", ":": "colon", ";": "semicolon", "_": "dash",
-            "-": "hyphen", ")": "right_round_bracket", "(": "left_round_bracket", "]": "right_square_bracket",
-            "[": "left_square_bracket", "\\": "slash", "'": "apostrophe", "\"": "speech_mark"}
-
-    # model = torch.load("model/punctuation_model.pth", map_location=torch.device('cpu'))
-    # model.eval()
-    # tokenizer = torch.load("model/tokenizer.pth")
-    # tag_values = torch.load("model/tag_values.pth")
+            "-": "hyphen", "(": "right_round_bracket", ")": "left_round_bracket", "[": "right_square_bracket",
+            "]": "left_square_bracket", "\\": "slash", "'": "apostrophe", "\"": "speech_mark"}
 
     tokenized_sentence = tokenizer.encode(test_sentence)
-    input_ids = torch.tensor([tokenized_sentence])#.cuda()
+    input_ids = torch.tensor([tokenized_sentence])  # .cuda()
 
     with torch.no_grad():
         output = model(input_ids)
@@ -33,10 +28,14 @@ def punctuate(test_sentence, model, tokenizer, tag_values):
     val_list = list(punc.values())
     key_list = list(punc.keys())
     for token, label in zip(new_tokens[1:-1], new_labels[1:-1]):
-        # print("{}\t{}".format(label, token))
-        result = result + token
-        if label != 'O':
-            result = result + key_list[val_list.index(label)]
+        split_label = label.split(' ')
+        if len(split_label) == 1:
+            result = result + token
+            if label != 'O' and label != 'PAD':
+                result = result + key_list[val_list.index(split_label[0])]
+        else:
+            result = result + key_list[val_list.index(split_label[0])] + token + key_list[
+                val_list.index(split_label[1])]
         result = result + " "
     print("Input text: {}\nOutput text: {}".format(test_sentence, result))
     return result
